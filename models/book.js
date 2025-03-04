@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/gdsc-lmsdb');
 
 const bookSchema = mongoose.Schema({
+    book_id: String,
     isbn: String,
     title: String,
     author: String,
