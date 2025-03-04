@@ -4,7 +4,7 @@ const memberSchema = mongoose.Schema({
     name: String,
     username: String,
     password: String,
-    role: String,
+    admin_rights: Boolean,
     histories: [{
         type: mongoose.Schema.Types.ObjectId, ref: "history"
     }]

@@ -14,4 +14,28 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser()); 
 
+app.get('/signup', (req, res) => {
+    res.render('signup');
+});
 
+app.get('/signin', (req, res) => {
+    res.render('signin');
+});
+
+app.post('/signup', (req, res) => {
+    const {name, username, password} = req.body;
+    const member = new memberModel({
+        name,
+        username,
+        password: bcrypt.hashSync(password, 10),
+        admin_rights: false
+    });
+    
+    res.redirect('/signin');
+});
+
+
+
+
+
+app.listen(3000);
