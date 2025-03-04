@@ -9,3 +9,5 @@ const memberSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: "history"
     }]
 })
+
+module.exports = mongoose.model("member", memberSchema);

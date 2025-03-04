@@ -22,9 +22,19 @@ app.get('/signin', (req, res) => {
     res.render('signin');
 });
 
-app.post('/signup', (req, res) => {
+app.get('/dashboard', isLoggedIn, (req, res) => {
+    res.render('dashboard');
+});
+
+app.post('/signup', async (req, res) => {
     const {name, username, password} = req.body;
-    const member = new memberModel({
+
+    let member = await memberModel.findOne({username});
+    if (member) {
+        return res.redirect('/signup');
+    }
+
+    member = await memberModel.create({
         name,
         username,
         password: bcrypt.hashSync(password, 10),
@@ -34,8 +44,39 @@ app.post('/signup', (req, res) => {
     res.redirect('/signin');
 });
 
+app.post('/signin', async (req, res) => {
+    const {username, password} = req.body;
+
+    let member = await memberModel.findOne({username});
+
+    if (!member) {
+        return res.redirect('/signin');
+    }
+
+    if (!bcrypt.compareSync(password, member.password)) {
+        return res.redirect('/signin');
+    }
+
+    const token = jwt.sign({username}, 'secretkey');
+    res.cookie('token', token);
+    res.redirect('/dashboard');
+});
 
 
+function isLoggedIn(req, res, next) {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.redirect('/signin');
+    }
+
+    jwt.verify(token, 'secretkey', (err, decoded) => {
+        if (err) {
+            return res.redirect('/signin');
+        }
+
+        next();
+    });
+}
 
 
 app.listen(3000);

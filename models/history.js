@@ -11,3 +11,5 @@ const historySchema = mongoose.Schema({
     returned_date: Date,
     status: String
 });
+
+module.exports = mongoose.model("history", historySchema);
