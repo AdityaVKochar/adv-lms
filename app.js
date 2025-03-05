@@ -93,6 +93,32 @@ app.get('/delete', isAdmin, async (req, res) => {
     res.render('delete');
 });
 
+app.get('/search', isLoggedIn, async (req, res) => {
+    const query = req.query.query;
+    const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+
+    const books = await bookModel.find({
+        $or: [
+            { title: { $regex: regex } },
+            { author: { $regex: regex } }
+        ]
+    });
+
+    res.render('searchResults', { books });
+});
+
+app.get('/book/:book_id', isLoggedIn, async (req, res) => {
+    let book = await bookModel.findOne({book_id: req.params.book_id});
+    if (!book) {
+        return res.redirect('/dashboard');
+    }
+    res.render('bookDetails', {book});
+});
+
+app.get('/addRatingReview/:book_id', isLoggedIn, (req, res) => {
+    res.render('addRatingReview', {book_id: req.params.book_id});
+});
+
 app.post('/signup', isAdmin, async (req, res) => {
     const {name, username, password} = req.body;
 
@@ -266,6 +292,38 @@ app.post('/update', isAdmin, async (req, res) => {
     res.redirect('/update');
 
     res.redirect('/admin');
+});
+
+app.post('/submitRatingReview/', isLoggedIn, async (req, res) => {
+    
+    let {rating, review, book_id} = req.body;
+
+    const bookthis = await bookModel.findOne({book_id});
+    const isbn = bookthis.isbn;
+
+
+    let books = await bookModel.find({isbn});
+
+    if(!books) {
+        return res.redirect('/dashboard');
+    };
+
+    console.log(books);
+
+    let reviews = books[0].reviews;
+    reviews.push(review);
+
+    rating = Number(books[0].rating) + Number(rating);
+    rating_count = Number(books[0].rating_count) + 1;
+
+    
+
+    books.forEach(async (book) => {
+        await bookModel.updateOne({book_id: book.book_id}, {rating: rating, rating_count: rating_count, reviews: reviews});
+    });
+
+    res.redirect('/dashboard');
+
 });
 
 

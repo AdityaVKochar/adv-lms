@@ -10,17 +10,16 @@
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
         <h1 class="text-2xl">Library Management System</h1>
-        <div class="flex items-center"></div>
-            <input type="text" placeholder="Search books..." class="p-2 rounded-l border-0">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">Search</button>
-        </div>
+        <form class="flex items-center" action="/search/" method="GET">
+            <input type="text" placeholder="Search books..." name="query" class="p-2 rounded-l border-0">
+            <input type="submit" value="Search" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">
+        </form>
         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="logout()">Logout</button>
     </header>
     <main class="p-4">
         <section id="current-borrowed-book" class="bg-white p-4 rounded shadow-md mb-4">
             <h2 class="text-xl font-bold mb-2">Current Borrowed Book</h2>
-            <div class="book-details flex flex-wrap mb-4">
-                <% booksB.forEach( book => { %>
+            <div class="book-details flex flex-wrap mb-4">                <% booksB.forEach( book => { %>
                 <div class="w-full md:w-1/2 p-2">
                     <p><strong>Title:</strong> <span id="book-title"><%= book.title %></span></p>
                     <p><strong>Author:</strong> <span id="book-author"><%= book.author %></span></p>

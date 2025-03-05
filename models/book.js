@@ -17,9 +17,7 @@ const bookSchema = mongoose.Schema({
     histories: [{
         type: mongoose.Schema.Types.ObjectId, ref: "history"
     }],
-    reviews : [{
-        types: String
-    }]
+    reviews : Array
 })
 
 module.exports = mongoose.model("book", bookSchema);

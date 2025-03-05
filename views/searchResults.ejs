@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Search Results</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <h1 class="text-2xl">Admin Dashboard</h1>
+        <h1 class="text-2xl">Library Management System</h1>
         <form class="flex items-center" action="/search" method="GET">
             <input type="text" placeholder="Search books..." name="query" class="p-2 rounded-l border-0">
             <input type="submit" value="Search" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">
@@ -17,13 +17,17 @@
     </header>
     <main class="p-4">
         <section class="bg-white p-4 rounded shadow-md mb-4">
-            <h2 class="text-xl font-bold mb-2">Admin Actions</h2>
-            <div class="flex flex-col space-y-4">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='/create'">Create Book</button>
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='/return'">Return Book</button>
-                <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='/signup'">Create Member</button>
-                <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='/update'">Update Book</button>
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='/delete'">Delete Book</button>
+            <h2 class="text-xl font-bold mb-2">Search Results</h2>
+            <div class="book-list flex flex-wrap mb-4">
+                <% books.forEach( book => { %>
+                <div class="w-full md:w-1/2 p-2">
+                    <p><strong>Title:</strong> <span id="book-title"><%= book.title %></span></p>
+                    <p><strong>Author:</strong> <span id="book-author"><%= book.author %></span></p>
+                    <p><strong>ISBN:</strong> <span id="book-isbn"><%= book.isbn %></span></p>
+                    <p><strong>Genre:</strong> <span id="book-genre"><%= book.genre %></span></p>
+                    <a href="/book/<%= book.book_id %>" class="text-blue-500 hover:underline">View Book</a>
+                </div>
+                <% }); %>
             </div>
         </section>
     </main>
@@ -34,4 +38,4 @@
         }
     </script>
 </body>
-</html></div></section></main></body>
+</html>
