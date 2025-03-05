@@ -123,7 +123,7 @@ app.get('/addRatingReview/:book_id', isLoggedIn, (req, res) => {
     res.render('addRatingReview', {book_id: req.params.book_id});
 });
 
-app.post('/signup', isAdmin, async (req, res) => {
+app.post('/signup', async (req, res) => {
     const {name, username, password} = req.body;
 
     let member = await memberModel.findOne({username});
