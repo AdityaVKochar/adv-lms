@@ -4,6 +4,8 @@ const app = express();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+
 
 const bookModel = require('./models/book');
 const memberModel = require('./models/member');
@@ -11,10 +13,12 @@ const historyModel = require('./models/history');
 const member = require('./models/member');
 const book = require('./models/book');
 
+
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser()); 
+app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
     res.render('signin');
