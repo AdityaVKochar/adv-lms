@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const uri = process.env.MONGODB_URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-mongoose.connect('mongodb://localhost:27017/gdsc-lmsdb');
 
 async function run() {
     try {
