@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Book</title>
+    <title>Update Book</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
@@ -17,15 +17,15 @@
     </header>
     <main class="p-4">
         <section class="bg-white p-4 rounded shadow-md mb-4">
-            <h2 class="text-xl font-bold mb-2">Create New Book</h2>
-            <form action="/create" method="POST">
-                <div class="mb-4">
-                    <label for="isbn" class="block text-gray-700">ISBN</label>
-                    <input type="text" id="isbn" name="isbn" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
+            <h2 class="text-xl font-bold mb-2">Update Book</h2>
+            <form action="/update" method="POST">
                 <div class="mb-4">
                     <label for="bookId" class="block text-gray-700">Book ID</label>
                     <input type="text" id="bookId" name="bookId" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="isbn" class="block text-gray-700">ISBN</label>
+                    <input type="text" id="isbn" name="isbn" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
                 <div class="mb-4">
                     <label for="title" class="block text-gray-700">Title</label>
@@ -62,7 +62,7 @@
                     <label for="location" class="block text-gray-700">Location</label>
                     <input type="text" id="location" name="location" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Create Book</button>
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Update Book</button>
             </form>
         </section>
     </main>

@@ -12,9 +12,13 @@ const bookSchema = mongoose.Schema({
     }],
     location: String,
     rating: Number,
-    borrowed_count: Number,
+    rating_count: Number,
+    book_status: Boolean,
     histories: [{
         type: mongoose.Schema.Types.ObjectId, ref: "history"
+    }],
+    reviews : [{
+        types: String
     }]
 })
 

@@ -6,6 +6,7 @@
     <title>Library Management System Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
         <h1 class="text-2xl">Library Management System</h1>
@@ -19,34 +20,28 @@
         <section id="current-borrowed-book" class="bg-white p-4 rounded shadow-md mb-4">
             <h2 class="text-xl font-bold mb-2">Current Borrowed Book</h2>
             <div class="book-details flex flex-wrap mb-4">
+                <% booksB.forEach( book => { %>
                 <div class="w-full md:w-1/2 p-2">
-                    <p><strong>Title:</strong> <span id="book-title">The Great Gatsby</span></p>
-                    <p><strong>Author:</strong> <span id="book-author">F. Scott Fitzgerald</span></p>
-                    <p><strong>ISBN:</strong> <span id="book-isbn">978-0743273565</span></p>
-                    <p><strong>Due Date:</strong> <span id="due-date">2023-10-15</span></p>
-                    <p><strong>Genre:</strong> <span id="book-genre">Fiction</span></p>
+                    <p><strong>Title:</strong> <span id="book-title"><%= book.title %></span></p>
+                    <p><strong>Author:</strong> <span id="book-author"><%= book.author %></span></p>
+                    <p><strong>ISBN:</strong> <span id="book-isbn"><%= book.isbn %></span></p>
+                    <p><strong>Genre:</strong> <span id="book-genre"><%= book.genre %></span></p>
                 </div>
+                <% }); %>
             </div>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="borrowBook()">Borrow Another Book</button>
         </section>
         <section id="previously-borrowed-books" class="bg-white p-4 rounded shadow-md mb-4">
             <h2 class="text-xl font-bold mb-2">Previously Borrowed Books</h2>
             <div class="book-rating flex flex-wrap mb-4">
+                <% booksR.forEach( book => { %>
                 <div class="w-full md:w-1/2 p-2">
-                    <p><strong>Title:</strong> <span id="prev-book-title">1984</span></p>
-                    <p><strong>Author:</strong> <span id="prev-book-author">George Orwell</span></p>
-                    <p><strong>ISBN:</strong> <span id="prev-book-isbn">978-0451524935</span></p>
-                    <p><strong>Genre:</strong> <span id="prev-book-genre">Dystopian</span></p>
-                    <label for="rating" class="block mb-2">Rate this book:</label>
-                    <select id="rating" class="border rounded p-2 mb-2">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="submitRating()">Submit Rating</button>
+                    <p><strong>Title:</strong> <span id="prev-book-title"><%= book.title %></span></p>
+                    <p><strong>Author:</strong> <span id="prev-book-author"><%= book.author %></span></p>
+                    <p><strong>ISBN:</strong> <span id="prev-book-isbn"><%= book.isbn %></span></p>
+                    <p><strong>Genre:</strong> <span id="prev-book-genre"><%= book.genre %></span></p>
                 </div>
+                <% }); %>
             </div>
         </section>
         <section id="user-recommendations" class="bg-white p-4 rounded shadow-md">
@@ -58,12 +53,13 @@
     <script>
         function logout() {
             // Implement logout functionality
-            fetch('/signout', {method: 'POST'})
+            fetch('/signout', {method: 'POST'});
+            window.location.replace('/signin');
         }
 
         function borrowBook() {
             // Implement borrow book functionality
-            alert('Borrow another book');
+            window.location.replace('/borrow');
         }
 
         function submitRating() {
