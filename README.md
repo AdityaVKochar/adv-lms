@@ -62,5 +62,11 @@ The application is configured to be deployed on Vercel. The `vercel.json` file c
 3. Start the application: `npm start`
 4. Access the application at `http://localhost:3000`
 
+## Running
+For Administrator access use
+
+UserName: admin0
+Password: admin 
+
 ## License
 This project is licensed under the ISC License.
