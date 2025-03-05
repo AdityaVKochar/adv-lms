@@ -35,6 +35,7 @@
             <div class="book-rating flex flex-wrap mb-4">
                 <% booksR.forEach( book => { %>
                 <div class="w-full md:w-1/2 p-2">
+                    <p><strong>Book ID:</strong> <span id="prev-book-id"><%= book.book_id %></span></p>
                     <p><strong>Title:</strong> <span id="prev-book-title"><%= book.title %></span></p>
                     <p><strong>Author:</strong> <span id="prev-book-author"><%= book.author %></span></p>
                     <p><strong>ISBN:</strong> <span id="prev-book-isbn"><%= book.isbn %></span></p>
@@ -59,16 +60,6 @@
         function borrowBook() {
             // Implement borrow book functionality
             window.location.replace('/borrow');
-        }
-
-        function submitRating() {
-            // Implement submit rating functionality
-            alert('Rating submitted');
-        }
-
-        function submitRecommendation() {
-            // Implement submit recommendation functionality
-            alert('Recommendation submitted');
         }
     </script>
 </body>

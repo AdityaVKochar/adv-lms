@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
-    res.render('signin');
+    res.redirect('/signin');
 });
 
 app.get('/signup', (req, res) => {
