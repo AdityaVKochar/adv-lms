@@ -58,7 +58,7 @@
     <script>
         function logout() {
             // Implement logout functionality
-            alert('Logged out');
+            fetch('/signout', {method: 'POST'})
         }
 
         function borrowBook() {

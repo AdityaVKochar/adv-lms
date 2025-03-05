@@ -8,11 +8,16 @@ const cookieParser = require('cookie-parser');
 const bookModel = require('./models/book');
 const memberModel = require('./models/member');
 const historyModel = require('./models/history');
+const member = require('./models/member');
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser()); 
+
+app.get('/', (req, res) => {
+    res.render('signin');
+});
 
 app.get('/signup', (req, res) => {
     res.render('signup');
@@ -28,6 +33,10 @@ app.get('/dashboard', isLoggedIn, (req, res) => {
 
 app.get('/create', isAdmin, (req, res) => {
     res.render('create');
+});
+
+app.get('/borrow', isLoggedIn, (req, res) => {
+    res.render('borrow');
 });
 
 app.post('/signup', async (req, res) => {
@@ -114,6 +123,31 @@ app.post('/create', async (req, res) => {
 
     res.redirect('/create');
 
+});
+
+app.post('/borrow', async (req, res) => {
+    const {bookId} = req.body;
+
+    let book = await bookModel.findOne({book_id: bookId});
+    let user = await memberModel.findOne({username: req.user.username});
+
+    let history = await historyModel.create({
+        member_id: user._id,
+        book_id: book._id,
+        borrowed_date: new Date(),
+        returned_date: null,
+        status: "borrowed"
+    });
+
+    let histb = book.histories;
+    let histm = member.histories;
+    histb.push(history._id);
+    histm.push(history._id);
+
+    await bookModel.updateOne({book_id: bookId}, {histories: histb});
+    await memberModel.updateOne({username: req.user.username}, {histories: histm});
+
+    res.redirect('/dashboard');
 });
 
 

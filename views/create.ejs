@@ -68,8 +68,7 @@
     </main>
     <script>
         function logout() {
-            // Implement logout functionality
-            alert('Logged out');
+            fetch('/signout', {method: 'POST'});
         }
     </script>
 </body>
