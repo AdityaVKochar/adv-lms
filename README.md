@@ -65,8 +65,8 @@ The application is configured to be deployed on Vercel. The `vercel.json` file c
 ## Running
 For Administrator access use
 
-UserName: admin0\n
-Password: admin 
+- UserName: admin0
+- Password: admin 
 
 ## License
 This project is licensed under the ISC License.
