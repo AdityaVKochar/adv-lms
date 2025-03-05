@@ -21,6 +21,7 @@
             <h2 class="text-xl font-bold mb-2">Current Borrowed Book</h2>
             <div class="book-details flex flex-wrap mb-4">                <% booksB.forEach( book => { %>
                 <div class="w-full md:w-1/2 p-2">
+                    <p><strong>Book ID:</strong> <span id="book-id"><%= book.book_id %></span></p>
                     <p><strong>Title:</strong> <span id="book-title"><%= book.title %></span></p>
                     <p><strong>Author:</strong> <span id="book-author"><%= book.author %></span></p>
                     <p><strong>ISBN:</strong> <span id="book-isbn"><%= book.isbn %></span></p>
