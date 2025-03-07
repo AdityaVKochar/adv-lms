@@ -6,13 +6,11 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
-
 const bookModel = require('./models/book');
 const memberModel = require('./models/member');
 const historyModel = require('./models/history');
 const member = require('./models/member');
 const book = require('./models/book');
-
 
 app.set('view engine', 'ejs');
 app.use(express.json());
@@ -33,25 +31,20 @@ app.get('/signin', (req, res) => {
 });
 
 app.get('/dashboard', isLoggedIn, async (req, res) => {
-    console.log('User in dashboard route:', req.user);
 
     let member = await memberModel.findOne({username: req.user.username}); 
     let booksB = [], booksR = [];
     
     await Promise.all(member.histories.map(async (history) => {
         let hist = await historyModel.findOne({_id: history});
-        console.log(hist);
         let book = await bookModel.findOne({_id: hist.book_id});
         if(hist.status == "borrowed") {
             booksB.push(book);
-            console.log(booksB);
         } else {
             booksR.push(book);
         }
     }));
 
-    console.log(5);
-    console.log(booksB + ' ' + booksR);
     res.render('dashboard', {member, booksB, booksR});
 });
 
@@ -74,7 +67,6 @@ app.get('/return', isAdmin, (req, res) => {
 app.get('/book:isbn', isLoggedIn, async (req, res) => {
 
     let book = await bookModel.findOne({isbn: req.params.isbn});
-
 
     if(!book) {
         return res.redirect('/dashboard');
@@ -104,7 +96,10 @@ app.get('/search', isLoggedIn, async (req, res) => {
     const books = await bookModel.find({
         $or: [
             { title: { $regex: regex } },
-            { author: { $regex: regex } }
+            { author: { $regex: regex } },
+            { isbn: { $regex: regex } },
+            { genre: { $regex: regex } },
+            { location: { $regex: regex } }
         ]
     });
 
@@ -173,9 +168,6 @@ app.post('/signout', (req, res) => {
 
 app.post('/create', isAdmin, async (req, res) => {
     const {isbn, title, author, location} = req.body;
-    
-    console.log(req.body.genre);
-    console.log(req.user);
 
     let genres = req.body.genre;
 
@@ -223,8 +215,7 @@ app.post('/create', isAdmin, async (req, res) => {
 
 app.post('/borrow', isLoggedIn, async (req, res) => {
     const {bookId} = req.body;
-    
-    console.log(req.user);;
+
     let book = await bookModel.findOne({book_id: bookId, book_status: true});
 
     if (!book || book.status == false) {
@@ -274,8 +265,6 @@ app.post('/return', isAdmin, async (req, res) => {
     history = await historyModel.findOneAndUpdate({book_id: book._id, status: "borrowed"}, {returned_date: new Date(), status: "returned"});
 
     res.redirect('/admin');
-
-
 });
 
 app.post('/delete', isAdmin, async (req, res) => {
@@ -284,7 +273,6 @@ app.post('/delete', isAdmin, async (req, res) => {
     let book = await bookModel.findOneAndUpdate({book_id: bookId}, {book_status: false});
 
     res.redirect('/admin');
-
 });
 
 app.post('/update', isAdmin, async (req, res) => {
@@ -305,22 +293,17 @@ app.post('/submitRatingReview/', isLoggedIn, async (req, res) => {
     const bookthis = await bookModel.findOne({book_id});
     const isbn = bookthis.isbn;
 
-
     let books = await bookModel.find({isbn});
 
     if(!books) {
         return res.redirect('/dashboard');
     };
 
-    console.log(books);
-
     let reviews = books[0].reviews;
     reviews.push(review);
 
     rating = Number(books[0].rating) + Number(rating);
     rating_count = Number(books[0].rating_count) + 1;
-
-    
 
     books.forEach(async (book) => {
         await bookModel.updateOne({book_id: book.book_id}, {rating: rating, rating_count: rating_count, reviews: reviews});
@@ -330,23 +313,17 @@ app.post('/submitRatingReview/', isLoggedIn, async (req, res) => {
 
 });
 
-
-
-
 function isLoggedIn(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
-        console.log('No token found');
         return res.redirect('/signin');
     }
 
     jwt.verify(token, 'secretkey', (err, decoded) => {
         if (err) {
-            console.log('Token verification failed', err);
             return res.redirect('/signin');
         }
         req.user = decoded;
-        console.log('User decoded from token:', req.user);
         next();
     });
 }
@@ -369,6 +346,5 @@ function isAdmin(req, res, next) {
         next();
     });
 }
-
 
 app.listen(3000);
