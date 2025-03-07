@@ -68,5 +68,16 @@ For Administrator access use
 - UserName: admin0
 - Password: admin 
 
+For Member access use
+
+- UserName: titan
+- Password: 67yuig
+- 
+- UserName: GDSC
+- Password: members1
+-
+- UserName: CPmaster
+- Password: ctfmaster
+
 ## License
 This project is licensed under the ISC License.
