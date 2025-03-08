@@ -5,44 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Book</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Borrow</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Return</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Delete</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h2>Delete a Book</h2>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl">Library Management System</h1>
+        <form class="flex items-center" action="/search" method="GET">
+            <input type="text" placeholder="Search books..." name="query" class="p-2 rounded-l border-0">
+            <input type="submit" value="Search" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">
+        </form>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="window.location.replace('/admin')">Home</button>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="logout()">Logout</button>
+    </header>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto mt-5">
+        <h2 class="text-2xl font-bold mb-6 text-center">Delete a Book</h2>
         <form action="/delete" method="POST">
-            <div class="form-group">
-                <label for="bookId">Book ID</label>
-                <input type="text" class="form-control" id="bookId" name="bookId" required>
+            <div class="mb-4">
+                <label for="bookId" class="block text-gray-700">Book ID</label>
+                <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="bookId" name="bookId" required>
             </div>
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
         </form>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function logout() {
+            fetch('/signout', {method: 'POST'});
+            window.location.replace('/signin');
+        }
+    </script>
 </body>
 </html>
